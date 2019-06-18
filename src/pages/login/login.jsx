@@ -28,7 +28,6 @@ class Login extends Component {
                     const user = resp.obj
                     memoryUtils.user = user
                     storageUtils.saveUser(user)
-
                     message.success("登录成功")
                     //跳转页面
                     this.props.history.replace("/")
@@ -71,7 +70,7 @@ class Login extends Component {
 
     render() {
         const user = memoryUtils.user
-        if (user&&user._id) {
+        if (user && user.username) {
             return <Redirect to="/"/>
         }
 
