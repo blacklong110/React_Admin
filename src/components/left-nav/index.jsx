@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
-import {Menu, Icon, Button} from 'antd';
+import {Link, withRouter} from 'react-router-dom'
+import {Menu, Icon} from 'antd';
 
 import './index.less'
 import logo from '../../assets/images/up.gif'
 import {getMenuList} from '../../api/index'
 
+
 const {SubMenu} = Menu;
 
 /*导航栏*/
-export default class Index extends Component {
+class LeftNav extends Component {
 
 
     //默认初始空数组跟加载状态未完成
     state = {
         error: null,
         menuList: [],
-        isLoaded: false
+        isLoaded: false,
     }
 
     componentDidMount() {
@@ -36,10 +37,13 @@ export default class Index extends Component {
         )
     }
 
+    componentWillMount() {
+    }
+
     renderMenu = (data) => {
         let menus;
-        menus = <Menu mode="inline" theme="dark">
-            {data.map(item => {
+        menus = (
+            data.map(item => {
                 if (null == item.children) {
                     return <Menu.Item key={item.key}>
                         <Link to={item.url}>
@@ -53,32 +57,33 @@ export default class Index extends Component {
                         {this.renderMenu(item.children)}
                     </SubMenu>
                 }
-            })}
-        </Menu>
+            })
+        )
         return menus
     }
 
     render() {
+        const path = this.props.location.pathname
         const {menuList, isLoaded, error} = this.state
-        let m_list;
+        let arr = path.split("/")
+        let fatherPath = "/" + arr[1]
+        let m_list
         if (error) {
-            m_list = <Menu mode="inline" theme="dark">
+            m_list =
                 <Menu.Item key="error">
                     <Link to="/#">
                         <Icon type="pie-chart"/>
                         <span>{error.message}</span>
                     </Link>
                 </Menu.Item>
-            </Menu>
         } else if (!isLoaded) {
-            m_list = <Menu mode="inline" theme="dark">
+            m_list =
                 <Menu.Item key="loading">
                     <Link to="/#">
                         <Icon type="pie-chart"/>
                         <span>拼命加载中</span>
                     </Link>
                 </Menu.Item>
-            </Menu>
         } else {
             m_list = this.renderMenu(menuList)
         }
@@ -89,9 +94,14 @@ export default class Index extends Component {
                     <img src={logo} alt="logo"/>
                     <h1>玩个锤子</h1>
                 </Link>
-                {m_list}
+                <Menu mode="inline" theme="dark" selectedKeys={[path]} defaultOpenKeys={[fatherPath]}>
+                    {m_list}
+                </Menu>
             </div>
         )
     }
 
 }
+
+
+export default withRouter(LeftNav)
