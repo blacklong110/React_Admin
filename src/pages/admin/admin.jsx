@@ -16,7 +16,6 @@ import Pie from '../charts/pie'
 import Line from '../charts/line'
 
 
-
 const {Footer, Sider, Content} = Layout;
 
 /*后台管理路由组件*/
@@ -35,7 +34,7 @@ export default class Admin extends Component {
                 </Sider>
                 <Layout>
                     <Header>Hello {user.username}</Header>
-                    <Content style={{backgroundColor: '#fff'}}>
+                    <Content style={{margin: 20, backgroundColor: '#fff'}}>
                         <Switch>
                             <Route path="/home" component={Home}/>
                             <Route path="/category" component={Category}/>
