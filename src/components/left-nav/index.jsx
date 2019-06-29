@@ -5,6 +5,7 @@ import {Menu, Icon} from 'antd';
 import './index.less'
 import logo from '../../assets/images/up.gif'
 import {getMenuList} from '../../api/index'
+import memoryUtils from '../../utils/memoryUtils'
 
 
 const {SubMenu} = Menu;
@@ -22,11 +23,16 @@ class LeftNav extends Component {
 
     componentDidMount() {
         getMenuList({username: 'admin'}).then(
-            resp => this.setState(
-                {
-                    menuList: resp.obj,
-                    isLoaded: true
-                })
+            resp => {
+                //异步请求到了数据就setState渲染
+                this.setState(
+                    {
+                        menuList: resp.obj,
+                        isLoaded: true
+                    })
+                //并且存储到内存中
+                memoryUtils.menuList = resp.obj
+            }
         ).catch(
             error => this.setState(
                 {

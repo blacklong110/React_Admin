@@ -20,7 +20,7 @@ export const reqWeater = (city) => {
         ajax('/apikey', {}, 'GET').then(
             resp => {
                 apikey = resp.obj
-                console.log('apikey==>', apikey)
+                //console.log('apikey==>', apikey)
                 const url = 'http://api.map.baidu.com/telematics/v3/weather?location=' + city + '&output=json&ak=' + apikey
                 //console.log('url==>', url)
                 jsonp(url, {}, (err, data) => {
@@ -28,7 +28,7 @@ export const reqWeater = (city) => {
                         const {dayPictureUrl, nightPictureUrl, weather, date, wind, temperature} = data.results[0].weather_data[0]
                         //console.log("jsonp===>", data.results[0].weather_data[0])
                         resolve({dayPictureUrl, nightPictureUrl, weather, date, wind, temperature})
-                        console.log(dayPictureUrl, nightPictureUrl, weather, date, wind, temperature)
+                        //console.log(dayPictureUrl, nightPictureUrl, weather, date, wind, temperature)
                     } else {
                         //失败
                         message.error('获取天气信息失败')
@@ -45,5 +45,5 @@ export const reqWeater = (city) => {
 
 //reqWeater('深圳')
 
-
+export const reqCategorys=(catid)=>ajax('/category/list', {catid})
 
